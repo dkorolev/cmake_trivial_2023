@@ -5,8 +5,9 @@ project(cmake_trivial_2023 C CXX)
 set (CMAKE_CXX_STANDARD 17)
 find_package(Threads REQUIRED)
 
+include(FetchContent)
+
 if (EXISTS "${CMAKE_SOURCE_DIR}/../current" AND IS_DIRECTORY "${CMAKE_SOURCE_DIR}/../current")
-  include(FetchContent)
   set(FETCHCONTENT_QUIET FALSE)
   message("Using 'CMAKE_SOURCE_DIR/../current' instead of cloning it via `FetchContent`.")
   set(current_SOURCE_DIR "${CMAKE_SOURCE_DIR}/../current")
@@ -16,6 +17,7 @@ elseif (EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../current" AND IS_DIRECTORY "${CMAK
 else()
   FetchContent_Declare(current
                        GIT_REPOSITORY https://github.com/c5t/current
+                       GIT_TAG stable
                        GIT_SHALLOW TRUE)
   FetchContent_MakeAvailable(current)
 endif()
