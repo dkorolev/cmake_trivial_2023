@@ -2,5 +2,5 @@
 #include "lib.h"
 
 TEST(Mul, Smoke) {
-  EXPECT_EQ(6, mul_from_library(2, 3));
+  EXPECT_EQ(6, mul(2, 3));
 }

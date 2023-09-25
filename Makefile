@@ -1,10 +1,9 @@
 # NOTE(dkorolev): 99% of the goal of this `Makefile` is to have `vim` jump to errors on `:mak`.
 #
 # NOTE(dkorolev): Yes, I am well aware it is ugly to have a `Makefile` for a `cmake`-built project.
-#                 Just too much of a `vi` user to not leverage `:mak`.
-#                 This `Makefile` also proves to be useful with Docker builds.
+#                 Am just too much of a `vi` user to not leverage `:mak`.
 
-.PHONY: debug release debug_dir release_dir clean
+.PHONY: debug release debug_dir release_dir fmt clean
 
 DEBUG_BUILD_DIR=$(shell echo "$${DEBUG_BUILD_DIR:-.debug}")
 RELEASE_BUILD_DIR=$(shell echo "$${RELEASE_BUILD_DIR:-.release}")
@@ -39,6 +38,9 @@ ${RELEASE_BUILD_DIR}: CMakeLists.txt
 
 test_release: release
 	(cd "${RELEASE_BUILD_DIR}"; make test)
+
+fmt:
+	${CLANG_FORMAT} -i src/*.cc src/*.h
 
 clean:
 	rm -rf "${DEBUG_BUILD_DIR}" "${RELEASE_BUILD_DIR}"

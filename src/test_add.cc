@@ -2,5 +2,5 @@
 #include "lib.h"
 
 TEST(Add, Smoke) {
-  EXPECT_EQ(5, add_from_library(2, 3));
+  EXPECT_EQ(5, add(2, 3));
 }
