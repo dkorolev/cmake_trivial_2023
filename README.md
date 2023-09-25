@@ -1,0 +1,1 @@
+# cmake_trivial_2023
