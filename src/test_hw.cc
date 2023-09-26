@@ -1,4 +1,6 @@
-#include "3rdparty/gtest/gtest-main-with-dflags.h"
+#include <gtest/gtest.h>
+
+#include <string>
 
 TEST(HW, Smoke) {
   std::string s = "Hello";
