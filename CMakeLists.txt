@@ -14,21 +14,21 @@ option(BUILD_GMOCK OFF)
 # The helper to clone a dependency, or use it from a sibling dir if available.
 function(add_local_dep_or_clone dep remote tag)
   if(EXISTS "${CMAKE_CURRENT_DIR}/../${dep}" AND IS_DIRECTORY "${CMAKE_CURRENT_DIR}/../${dep}")
-    message("-- Using `${dep}` from `CMAKE_CURRENT_DIR/../${dep}'.")
+    message(STATUS "Using `${dep}` from `CMAKE_CURRENT_DIR/../${dep}'.")
     add_subdirectory("${CMAKE_CURRENT_DIR}/../${dep}" ${dep})
-    message("-- Using `${dep}` from `CMAKE_CURRENT_DIR/../${dep}': Configured.")
+    message(STATUS "Using `${dep}` from `CMAKE_CURRENT_DIR/../${dep}': Configured.")
   elseif(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../${dep}" AND IS_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/../${dep}")
-    message("-- Using `${dep}` from `CMAKE_CURRENT_SOURCE_DIR/../${dep}'.")
+    message(STATUS "Using `${dep}` from `CMAKE_CURRENT_SOURCE_DIR/../${dep}'.")
     add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/../${dep}" ${dep})
-    message("-- Using `${dep}` from `CMAKE_CURRENT_SOURCE_DIR/../${dep}': Configured.")
+    message(STATUS "Using `${dep}` from `CMAKE_CURRENT_SOURCE_DIR/../${dep}': Configured.")
   else()
-    message("-- Cloning `${dep}` from `${remote}:${tag}`.")
+    message(STATUS "Cloning `${dep}` from `${remote}:${tag}`.")
     FetchContent_Declare(${dep}
                          GIT_REPOSITORY ${remote}
                          GIT_TAG ${tag}
                          GIT_SHALLOW TRUE)
     FetchContent_MakeAvailable(${dep})
-    message("-- Cloning `${dep}` from `${remote}:${tag}`: Configured.")
+    message(STATUS "Cloning `${dep}` from `${remote}:${tag}`: Configured.")
   endif()
 endfunction()
 
