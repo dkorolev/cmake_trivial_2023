@@ -7,29 +7,30 @@ find_package(Threads REQUIRED)
 
 include(FetchContent)
 
+# Settings for `googletest`.
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 option(BUILD_GMOCK OFF)
 
-if (EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../current" AND IS_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/../current")
-  message("Using 'CMAKE_CURRENT_SOURCE_DIR/../current' instead of cloning it via `FetchContent`.")
-  add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/../current" current)
-else()
-  FetchContent_Declare(current
-                       GIT_REPOSITORY https://github.com/c5t/current
-                       GIT_TAG cmake_friendly
-                       GIT_SHALLOW TRUE)
-  FetchContent_MakeAvailable(current)
-endif()
+# The helper to clone a dependency, or use it from a sibling dir if available.
+function(add_local_dep_or_clone dep remote tag)
+  if(EXISTS "${CMAKE_CURRENT_DIR}/../${dep}" AND IS_DIRECTORY "${CMAKE_CURRENT_DIR}/../${dep}")
+    message("-- Using `${dep}` from `CMAKE_CURRENT_DIR/../${dep}'.")
+    add_subdirectory("${CMAKE_CURRENT_DIR}/../${dep}" ${dep})
+  elseif(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../${dep}" AND IS_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/../${dep}")
+    message("-- Using `${dep}` from `CMAKE_CURRENT_SOURCE_DIR/../${dep}'.")
+    add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/../${dep}" ${dep})
+  else()
+    message("-- Cloning `${dep}` from `${remote}:${tag}`.")
+    FetchContent_Declare(${dep}
+                         GIT_REPOSITORY ${remote}
+                         GIT_TAG ${tag}
+                         GIT_SHALLOW TRUE)
+    FetchContent_MakeAvailable(${dep})
+  endif()
+endfunction()
 
-if (EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../googletest" AND IS_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/../googletest")
-  add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/../googletest" googletest)
-else()
-  FetchContent_Declare(googletest
-                       GIT_REPOSITORY https://github.com/c5t/googletest
-                       GIT_TAG v1.14
-                       GIT_SHALLOW TRUE)
-  FetchContent_MakeAvailable(googletest)
-endif()
+add_local_dep_or_clone(current https://github.com/c5t/current cmake_friendly)
+add_local_dep_or_clone(googletest https://github.com/c5t/googletest v1.14)
 
 # Declare libraries as library targets. And add them into the `ALL_LIBRARIES` list.
 set(ALL_LIBRARIES "Threads::Threads" "C5T")
