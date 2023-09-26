@@ -18,26 +18,26 @@ endif
 CLANG_FORMAT=$(shell echo "$${CLANG_FORMAT:-clang-format-14}")
 
 debug: debug_dir
-	MAKEFLAGS=--no-print-directory cmake --build "${DEBUG_BUILD_DIR}" -j ${CORES}
+	@MAKEFLAGS=--no-print-directory cmake --build "${DEBUG_BUILD_DIR}" -j ${CORES}
 
 debug_dir: ${DEBUG_BUILD_DIR}
 
 ${DEBUG_BUILD_DIR}: CMakeLists.txt
-	cmake -B "${DEBUG_BUILD_DIR}" .
+	@cmake -B "${DEBUG_BUILD_DIR}" .
 
 test: debug
-	(cd "${DEBUG_BUILD_DIR}"; make test)
+	@(cd "${DEBUG_BUILD_DIR}"; make test)
 
 release: release_dir
-	MAKEFLAGS=--no-print-directory cmake --build "${RELEASE_BUILD_DIR}" -j ${CORES}
+	@MAKEFLAGS=--no-print-directory cmake --build "${RELEASE_BUILD_DIR}" -j ${CORES}
 
 release_dir:	${RELEASE_BUILD_DIR}
 
 ${RELEASE_BUILD_DIR}: CMakeLists.txt
-	cmake -DCMAKE_BUILD_TYPE=Release -B "${RELEASE_BUILD_DIR}" .
+	@cmake -DCMAKE_BUILD_TYPE=Release -B "${RELEASE_BUILD_DIR}" .
 
 test_release: release
-	(cd "${RELEASE_BUILD_DIR}"; make test)
+	@(cd "${RELEASE_BUILD_DIR}"; make test)
 
 fmt:
 	${CLANG_FORMAT} -i src/*.cc src/*.h
