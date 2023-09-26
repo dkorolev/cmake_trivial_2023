@@ -13,7 +13,7 @@ if (EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../current" AND IS_DIRECTORY "${CMAKE_CU
 else()
   FetchContent_Declare(current
                        GIT_REPOSITORY https://github.com/c5t/current
-                       GIT_TAG stable
+                       GIT_TAG cmake_friendly
                        GIT_SHALLOW TRUE)
   FetchContent_MakeAvailable(current)
 endif()
