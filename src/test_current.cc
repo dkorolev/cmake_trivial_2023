@@ -1,7 +1,6 @@
 #include <gtest/gtest.h>
 
 // NOTE(dkorolev): Works with regular quotes too, but we're using `current` as a CMake-enabled dependency now!
-// #include <bricks/strings/split.h>
 #include <bricks/strings/split.h>
 
 TEST(Current, StringsSplit) {
