@@ -7,6 +7,9 @@ find_package(Threads REQUIRED)
 
 include(FetchContent)
 
+set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+option(BUILD_GMOCK OFF)
+
 if (EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../current" AND IS_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/../current")
   message("Using 'CMAKE_CURRENT_SOURCE_DIR/../current' instead of cloning it via `FetchContent`.")
   add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/../current" current)
@@ -17,8 +20,6 @@ else()
                        GIT_SHALLOW TRUE)
   FetchContent_MakeAvailable(current)
 endif()
-
-set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 
 if (EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/../googletest" AND IS_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/../googletest")
   add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/../googletest" googletest)
