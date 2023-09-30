@@ -1,0 +1,44 @@
+name: Tests
+
+on:
+  workflow_dispatch:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  ubuntu-debug:
+    runs-on: ubuntu-latest
+    steps:
+      - name: git clone
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 1
+      - name: make test
+        run: make test
+  ubuntu-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: git clone
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 1
+      - name: make test_release
+        run: make test_release
+  macos-debug:
+    runs-on: macos-latest
+    steps:
+      - name: git clone
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 1
+      - name: make test
+        run: make test
+  macos-release:
+    runs-on: macos-latest
+    steps:
+      - name: git clone
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 1
+      - name: make test_release
+        run: make test_release
