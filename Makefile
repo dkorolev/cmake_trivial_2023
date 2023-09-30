@@ -22,7 +22,7 @@ debug: debug_dir
 
 debug_dir: ${DEBUG_BUILD_DIR}
 
-${DEBUG_BUILD_DIR}: CMakeLists.txt
+${DEBUG_BUILD_DIR}: CMakeLists.txt src
 	@cmake -B "${DEBUG_BUILD_DIR}" .
 
 test: debug
@@ -31,9 +31,9 @@ test: debug
 release: release_dir
 	@MAKEFLAGS=--no-print-directory cmake --build "${RELEASE_BUILD_DIR}" -j ${CORES}
 
-release_dir:	${RELEASE_BUILD_DIR}
+release_dir: ${RELEASE_BUILD_DIR}
 
-${RELEASE_BUILD_DIR}: CMakeLists.txt
+${RELEASE_BUILD_DIR}: CMakeLists.txt src
 	@cmake -DCMAKE_BUILD_TYPE=Release -B "${RELEASE_BUILD_DIR}" .
 
 test_release: release
