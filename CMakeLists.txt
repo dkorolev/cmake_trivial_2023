@@ -42,11 +42,13 @@ foreach(LIBRARY_SOURCE_FILE ${LIBRARY_SOURCE_FILES})
 endforeach()
 
 # Declare binaries as binary targets. And link them against all the libraries.
-file(GLOB_RECURSE BINARY_SOURCE_FILES "src/bin_*.cc")
+file(GLOB_RECURSE BINARY_SOURCE_FILES "src/*.cc")
 foreach(BINARY_SOURCE_FILE ${BINARY_SOURCE_FILES})
   get_filename_component(BINARY_TARGET_NAME "${BINARY_SOURCE_FILE}" NAME_WE)
-  add_executable(${BINARY_TARGET_NAME} "${BINARY_SOURCE_FILE}") 
-  target_link_libraries(${BINARY_TARGET_NAME} PRIVATE "${ALL_LIBRARIES}")
+  if(NOT (BINARY_TARGET_NAME MATCHES "lib_.*" OR BINARY_TARGET_NAME MATCHES "test_.*"))
+    add_executable(${BINARY_TARGET_NAME} "${BINARY_SOURCE_FILE}") 
+    target_link_libraries(${BINARY_TARGET_NAME} PRIVATE "${ALL_LIBRARIES}")
+  endif()
 endforeach()
 
 # Declare tests as test targets. And link them against all the libraries.
