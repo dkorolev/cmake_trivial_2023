@@ -15,7 +15,7 @@ else
   CORES=$(shell nproc)
 endif
 
-CLANG_FORMAT=$(shell echo "$${CLANG_FORMAT:-clang-format-14}")
+CLANG_FORMAT=$(shell echo "$${CLANG_FORMAT:-clang-format}")
 
 debug: debug_dir
 	@MAKEFLAGS=--no-print-directory cmake --build "${DEBUG_BUILD_DIR}" -j ${CORES}
